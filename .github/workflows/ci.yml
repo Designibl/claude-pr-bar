@@ -14,7 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Manifests are valid JSON
         run: |
-          node -e 'for (const f of ["package.json"]) {}' 2>/dev/null || true
           node -e 'JSON.parse(require("fs").readFileSync(".claude-plugin/plugin.json","utf8"))'
           node -e 'JSON.parse(require("fs").readFileSync("hooks/hooks.json","utf8"))'
       - name: Hooks module compiles
