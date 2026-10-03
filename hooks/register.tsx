@@ -360,14 +360,15 @@ const fixPrompt = (pr: Pr) =>
 
 // -------------------------------------------------------------------- hooks
 
+let timer: { cancel: () => void } | undefined
+
+function schedule($: Api, minutes: number): void {
+  timer?.cancel()
+  timer = $.clock.every(minutes * 60_000, () => void refresh($))
+}
+
+
 export const register: Register = on => {
-  let timer: { cancel: () => void } | undefined
-
-  const schedule = ($: Api, minutes: number) => {
-    timer?.cancel()
-    timer = $.clock.every(minutes * 60_000, () => void refresh($))
-  }
-
   on('session.start', async ($, e, next) => {
     const stored = (await $.store.get('settings')) as Settings | undefined
     const cached = (await $.store.get('data')) as PrData | undefined
