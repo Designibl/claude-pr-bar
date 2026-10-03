@@ -6,7 +6,8 @@ Your GitHub pull requests in the Claude Code sidebar. A port of [PR Bar](https:/
 ## What it shows
 
 - **Status line**: `PRs 4 · 👀 2` (open PRs you authored, PRs awaiting *your* review)
-- **Sidebar pane** with collapsible sections: *Awaiting your review* (requested of you, then per team), *Ready to merge*, *Ready for review*, *Awaiting fixes*, *In draft*
+- **Band above the prompt**: `PRs: 4 open · 👀 2 to review · 1 ready to merge · 2 need fixes`, with Open list and Refresh buttons
+- **Full list pane** (`/pr-bar` or the band's Open list button) with collapsible sections: *Awaiting your review* (requested of you, then per team), *Ready to merge*, *Ready for review*, *Awaiting fixes*, *In draft*
 - Per PR: files, +/- lines, age of latest commit (amber > 7d, red > 14d), CI, merge status, fix reasons, Linear/GitHub issue and preview links
 - **Review with Claude / Fix with Claude / Self-review** buttons submit a prompt into the current session
 - **Copy** a Markdown, Slack or plain-text summary (all / needs my review / awaiting review)

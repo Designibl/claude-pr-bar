@@ -382,7 +382,6 @@ export const register: Register = on => {
     })
     schedule($, (await readSettings($)).intervalMinutes)
     void refresh($)
-    void $.ui.open({ id: PANE, title: 'PRs' })
     return next(e)
   })
 
@@ -417,6 +416,32 @@ export const register: Register = on => {
     }
     await $.ui.open({ id: PANE, title: 'PRs', focus: true })
     return { text: 'PR Bar opened.' }
+  })
+
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    const d = await read($, data)
+    if (e.props.hasSurvey || (d.prs.length === 0 && !d.error)) return next(e)
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const s = await readSettings($)
+    const by = grouped(d.prs)
+    const eyes = reviewCount(by.review!, s.isCountingTeams)
+    const mine = d.prs.length - by.review!.length
+    const bits: [string, string?][] = [[`${mine} open`]]
+    if (eyes) bits.push([`👀 ${eyes} to review`, 'yellow'])
+    if (by.merge!.length) bits.push([`${by.merge!.length} ready to merge`, 'green'])
+    if (by.fixes!.length) bits.push([`${by.fixes!.length} need fixes`, 'red'])
+    return (
+      <Box>
+        <Text dimColor>PRs: </Text>
+        {bits.map(([t, c], i) => (
+          <Text key={`b${i}`} color={c}>{i ? ' · ' : ''}{t}</Text>
+        ))}
+        {d.error && <Text color="red"> !</Text>}
+        <Text> </Text>
+        <Button key="band-open" label="Open list" onPress={() => $.ui.open({ id: PANE, title: 'PRs', focus: true })} />
+        <Button key="band-refresh" label="Refresh" onPress={() => refresh($)} />
+      </Box>
+    )
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
