@@ -1,0 +1,6 @@
+{
+  "name": "pr-bar",
+  "version": "0.1.0",
+  "description": "Your GitHub pull requests in the Claude Code sidebar: review queue, merge-ready PRs, fixes needed, with one-press Claude reviews.",
+  "types": "./types/index.d.ts"
+}
